@@ -36,6 +36,7 @@ exports.regist = function(host_id,password,host_id_pic,call){
 	async.auto({
 		check:function(callback){
 			client.hget("username:uid",host_id,function(err,uid){
+				console.log("username:"+host_id);
 				console.log("username:uid:"+uid);
 				if(uid != null){
 					callback("0",uid);
@@ -53,7 +54,7 @@ exports.regist = function(host_id,password,host_id_pic,call){
 		}
 		],
 		set_username_id:['check','get_next_uid',function(callback,results){//²ÎÊýË³Ðò£ºcallback,results
-			client.hmset('username:uid','username',host_id,'uid',results.get_next_uid,function(err,status){
+			client.hmset('username:uid',host_id,results.get_next_uid,function(err,status){
 				console.log(err);
 				callback(err,status);
 			});
